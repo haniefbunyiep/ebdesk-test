@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function PageNotFound() {
   return (
@@ -12,9 +13,11 @@ export default function PageNotFound() {
           <p>This page doesn&apos;t exist or it was removed</p>
           <p>We suggest you back to home</p>
         </div>
-        <Button className='bg-primary_blue hover:bg-regent_gray w-[155px] rounded-full font-bold'>
-          Learn More
-        </Button>
+        <Link href={'/'}>
+          <Button className='bg-primary_blue hover:bg-regent_gray w-[155px] rounded-full font-bold'>
+            Learn More
+          </Button>
+        </Link>
       </div>
       <div>
         <svg
