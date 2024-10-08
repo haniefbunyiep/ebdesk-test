@@ -27,7 +27,7 @@ export default function PageNotFound() {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
-          <g clip-path='url(#clip0_1_30)'>
+          <g clipPath='url(#clip0_1_30)'>
             <path
               d='M305.165 112.424C299.793 103.541 293.429 94.0557 283.461 91.155C271.918 87.7958 260.061 94.4689 250.003 101.054C219.923 120.748 190.956 142.09 163.235 164.984L163.265 165.328C184.847 163.84 206.43 162.352 228.012 160.863C243.606 159.788 259.735 158.564 273.515 151.188C278.744 148.388 283.842 144.649 289.767 144.389C297.129 144.065 303.548 149.207 308.592 154.578C338.432 186.354 347.067 234.946 380.544 262.863C359.435 210.802 334.229 160.498 305.165 112.424Z'
               fill='#F2F2F2'
@@ -183,8 +183,8 @@ export default function PageNotFound() {
               y2='84.3876'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2161D5' />
-              <stop offset='1' stop-color='#5C92F3' />
+              <stop stopColor='#2161D5' />
+              <stop offset='1' stopColor='#5C92F3' />
             </linearGradient>
             <linearGradient
               id='paint1_linear_1_30'
@@ -194,8 +194,8 @@ export default function PageNotFound() {
               y2='386.645'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2161D5' />
-              <stop offset='1' stop-color='#5C92F3' />
+              <stop stopColor='#2161D5' />
+              <stop offset='1' stopColor='#5C92F3' />
             </linearGradient>
             <linearGradient
               id='paint2_linear_1_30'
@@ -205,8 +205,8 @@ export default function PageNotFound() {
               y2='388.683'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#2161D5' />
-              <stop offset='1' stop-color='#5C92F3' />
+              <stop stopColor='#2161D5' />
+              <stop offset='1' stopColor='#5C92F3' />
             </linearGradient>
             <clipPath id='clip0_1_30'>
               <rect width='602.388' height='400' fill='white' />

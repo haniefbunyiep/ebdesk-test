@@ -115,10 +115,13 @@ export default function NavbarComp() {
           ))}
         </ul>
         <div className='hidden flex-shrink-0 items-center gap-3 lg:flex'>
-          <Button variant={'ghost'} className='text-[16px] font-bold'>
+          <Button
+            variant={'ghost'}
+            className='hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold hover:text-white'
+          >
             Sign In
           </Button>
-          <Button className='border-primary_blue text-primary_blue flex rounded-full border bg-transparent px-[40px] py-[13px] text-[16px] font-bold hover:bg-soft_gray'>
+          <Button className='border-primary_blue text-primary_blue hover:bg-primary_blue flex rounded-full border bg-transparent px-[40px] py-[13px] text-[16px] font-bold hover:text-white'>
             Sign Up
           </Button>
         </div>
