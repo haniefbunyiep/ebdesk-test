@@ -52,7 +52,7 @@ const config: Config = {
         },
         soft_gray: '#F5F6FA',
         primary_blue: '#2161D5',
-        regent_gray: '#4F5564',
+        regent_gray: '#808590',
       },
       borderRadius: {
         lg: 'var(--radius)',
