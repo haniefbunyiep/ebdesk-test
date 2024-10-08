@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <main className='flex min-h-screen flex-col justify-between'>
           <Navbar />
-          {children}
+          <div className='min-h-screen'>{children}</div>
           <Footer />
         </main>
       </body>
