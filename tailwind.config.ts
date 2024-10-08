@@ -50,9 +50,10 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        soft_gray: '#F5F6FA',
+        soft_gray: '#DDDDDD',
         primary_blue: '#2161D5',
         regent_gray: '#808590',
+        dark_gray: '#4F5564',
       },
       borderRadius: {
         lg: 'var(--radius)',
