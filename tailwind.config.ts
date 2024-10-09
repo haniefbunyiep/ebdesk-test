@@ -56,6 +56,7 @@ const config: Config = {
         dark_gray: '#4F5564',
         base_gray: '#F8F8F8',
         dark_blue: '#2A3041',
+        broken_white: '#F5F6FA',
       },
       borderRadius: {
         lg: 'var(--radius)',
