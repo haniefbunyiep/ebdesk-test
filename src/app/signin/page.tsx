@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default function SignIn() {
   return (
     <div className='flex'>
-      <div className='flex h-screen w-[50%] flex-col justify-between bg-soft_gray px-10 py-12'>
+      <div className='flex h-screen w-[20%] flex-col justify-between bg-soft_gray px-10 py-12'>
         <div className='left-[60px] top-[60px]'>
           <Link href={'/'}>
             <img src='Logo/Logo.svg' alt='logo' />

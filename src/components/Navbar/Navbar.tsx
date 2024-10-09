@@ -58,7 +58,7 @@ export default function NavbarComp() {
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-10 w-screen justify-between p-10 px-10 transition-transform duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 w-screen justify-between p-10 px-10 transition-transform duration-300 ${
         isAboutUs ? 'fixed bg-transparent' : ''
       } ${visible ? 'translate-y-0' : '-translate-y-full'}`}
     >
@@ -69,7 +69,7 @@ export default function NavbarComp() {
           aria-label='Back to homepage'
           className='flex items-center p-2'
         >
-          {isAboutUs ? (
+          {isAboutUs && scrollY <= 600 ? (
             <img src='Logo/LogoWhite.svg' alt='logo' />
           ) : (
             <img src='Logo/Logo.svg' alt='logo' />
@@ -87,7 +87,7 @@ export default function NavbarComp() {
                   variant={'link'}
                   className={`text-[16px] ${
                     pathname == content.url && 'font-bold'
-                  } ${isAboutUs ? 'text-white' : ''}`}
+                  } ${isAboutUs && scrollY <= 600 ? 'text-white' : 'text-black'}`}
                 >
                   {content.name}
                 </Button>
@@ -99,7 +99,7 @@ export default function NavbarComp() {
           <Link href={'/signin'}>
             <Button
               variant={'ghost'}
-              className={`${isAboutUs ? 'rounded-full bg-transparent text-[16px] font-bold text-white' : 'hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold hover:text-white'} `}
+              className={`${isAboutUs && scrollY <= 600 ? 'rounded-full bg-transparent text-[16px] font-bold text-white' : 'hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold text-black hover:text-white'} `}
             >
               Sign In
             </Button>
