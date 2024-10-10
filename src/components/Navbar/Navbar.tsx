@@ -39,7 +39,7 @@ const navbarContent: NavbarContent[] = [
 ];
 
 export default function NavbarComp() {
-  const userSelector = useSelector((state: RootState) => state.user.userData);
+  const userLoginData = useSelector((state: RootState) => state.user.userData);
   const dispatch = useDispatch();
   const pathname = usePathname();
 
@@ -47,6 +47,7 @@ export default function NavbarComp() {
     dispatch(logout());
     dispatch(setLoginData(null));
     alert('Logout Success');
+    window.location.reload();
   };
 
   const isAboutUs = pathname === '/aboutus';
@@ -67,12 +68,8 @@ export default function NavbarComp() {
   const { userAuthData, userAuthSuccess, userAuthError } = useGetUserAuth();
   const { refreshTokenMutation } = useRefreshToken();
 
-  const hasRunRef = useRef(false);
-
   useEffect(() => {
-    if (hasRunRef.current) return;
-
-    if (userSelector) {
+    if (!userLoginData) {
       if (userAuthSuccess) {
         const userData = userAuthData?.data;
         dispatch(
@@ -85,9 +82,7 @@ export default function NavbarComp() {
         refreshTokenMutation();
       }
     }
-
-    hasRunRef.current = true;
-  }, [userSelector, userAuthSuccess, userAuthError, userAuthData, dispatch]);
+  }, [userLoginData, userAuthSuccess, userAuthError, userAuthData, dispatch]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -134,7 +129,7 @@ export default function NavbarComp() {
           ))}
         </ul>
         <div className='hidden flex-shrink-0 items-center gap-3 lg:flex'>
-          {userSelector == null ? (
+          {userLoginData == null ? (
             <>
               <Link href={'/signin'}>
                 <Button
@@ -150,7 +145,7 @@ export default function NavbarComp() {
             </>
           ) : (
             <>
-              <Link href={'/signin'}>
+              <Link href={'/admin/dashboard'}>
                 <Button
                   variant={'ghost'}
                   className={`${isAboutUs && scrollY <= 600 ? 'rounded-full bg-transparent text-[16px] font-bold text-white' : 'hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold text-black hover:text-white'} `}

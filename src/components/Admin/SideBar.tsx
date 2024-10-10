@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { PathnameSlice } from '@/utils';
 
 interface Content {
   name: string;
-  url?: string;
+  url: string;
   img: string;
 }
 
@@ -18,32 +19,41 @@ const sideBarContent: SideBarContent[] = [
   {
     key: 'DATA',
     content: [
-      { name: 'Visualization', img: '/AdminSideBar/visualization.svg' },
-      { name: 'Case', img: '/AdminSideBar/case.svg' },
-      { name: 'Data Set', img: '/AdminSideBar/dataSet.svg' },
-      { name: 'Data Source', img: '/AdminSideBar/dataSource.svg' },
-      { name: 'Connection', img: '/AdminSideBar/connection.svg' },
+      {
+        name: 'Visualization',
+        img: '/AdminSideBar/visualization.svg',
+        url: '#',
+      },
+      { name: 'Case', img: '/AdminSideBar/case.svg', url: '#' },
+      { name: 'Data Set', img: '/AdminSideBar/dataSet.svg', url: '#' },
+      {
+        name: 'Data Source',
+        img: '/AdminSideBar/dataSource.svg',
+        url: '/admin/management',
+      },
+      { name: 'Connection', img: '/AdminSideBar/connection.svg', url: '#' },
     ],
   },
   {
     key: 'ASSETS',
     content: [
-      { name: 'Icon', img: '/AdminSideBar/icon.svg' },
-      { name: 'Image', img: '/AdminSideBar/image.svg' },
+      { name: 'Icon', img: '/AdminSideBar/icon.svg', url: '#' },
+      { name: 'Image', img: '/AdminSideBar/image.svg', url: '#' },
     ],
   },
   {
     key: 'AUTHORIZATION',
     content: [
-      { name: 'Account', img: '/AdminSideBar/account.svg' },
-      { name: 'Role', img: '/AdminSideBar/role.svg' },
-      { name: 'Workspace', img: '/AdminSideBar/workspace.svg' },
+      { name: 'Account', img: '/AdminSideBar/account.svg', url: '#' },
+      { name: 'Role', img: '/AdminSideBar/role.svg', url: '#' },
+      { name: 'Workspace', img: '/AdminSideBar/workspace.svg', url: '#' },
     ],
   },
 ];
 
 export default function AdminSideBar() {
   const pathname = usePathname();
+
   return (
     <div className='bg-dark_blue w-[30vh] px-7 py-10 font-bold'>
       <Link href={'/'}>
@@ -64,8 +74,8 @@ export default function AdminSideBar() {
               {SideBarcontent.content.map((contentList, index) => (
                 <li key={index}>
                   <Link
-                    href={'#'}
-                    className={`flex items-center gap-3 hover:underline ${pathname == `/admin/`}`}
+                    href={!contentList.url ? '#' : contentList.url}
+                    className={`flex items-center gap-3 hover:underline ${pathname == contentList.url ? 'underline' : ''}`}
                   >
                     <img src={contentList.img} alt={contentList.name} />
                     {contentList.name}
