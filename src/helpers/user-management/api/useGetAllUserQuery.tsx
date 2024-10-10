@@ -10,7 +10,6 @@ export const useGetAllUserQuery = (
   const { data, isLoading, isError, isSuccess, refetch } = useQuery({
     queryKey: ['all-user', skip, limit],
     queryFn: async () => {
-      console.log(search);
       if (search) {
         return axios.get(`https://dummyjson.com/users/search?q=${search}`);
       }

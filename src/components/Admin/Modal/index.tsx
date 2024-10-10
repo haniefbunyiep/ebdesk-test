@@ -12,8 +12,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import GenderDropdown from './GenderDropdown';
 import { useFormik } from 'formik';
+import { useAddUser } from '@/helpers/user-management/hooks/useAddUser';
+import { useEffect } from 'react';
 
 export default function AdminModal() {
+  const { mutate, isSuccess } = useAddUser();
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -22,9 +25,21 @@ export default function AdminModal() {
       gender: '',
     },
     onSubmit: (values) => {
-      console.log('Form Submitted:', values);
+      mutate({
+        name: values.name,
+        email: values.email,
+        username: values.username,
+        gender: values.gender,
+      });
     },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      formik.resetForm();
+      alert('Add User Success');
+    }
+  }, [isSuccess]);
 
   return (
     <Dialog>
@@ -33,7 +48,12 @@ export default function AdminModal() {
           Add User
         </Button>
       </DialogTrigger>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          formik.handleSubmit(e);
+          e.preventDefault();
+        }}
+      >
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
             <DialogTitle>User Management</DialogTitle>
@@ -99,7 +119,7 @@ export default function AdminModal() {
             <Button
               type='submit'
               className='bg-primary_blue border-primary_blue hover:text-primary_blue border font-bold text-white hover:bg-white'
-              // onClick={formik.handleSubmit as any}
+              onClick={formik.handleSubmit as any}
             >
               Submit
             </Button>

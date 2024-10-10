@@ -5,7 +5,6 @@ import AdminSideBar from '@/components/Admin/SideBar';
 import AdminTopBar from '@/components/Admin/TopBar';
 import { Input } from '@/components/ui/input';
 import { LuSearch } from 'react-icons/lu';
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -24,8 +23,27 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { MdOutlineBackspace } from 'react-icons/md';
+import { MdOutlineBackspace, MdOutlineEdit } from 'react-icons/md';
 import AdminModal from '@/components/Admin/Modal';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { MdDelete } from 'react-icons/md';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { useDeleteUser } from '@/helpers/user-management/hooks/useDeleteUser';
+import EditUser from '@/components/Admin/Edit';
 
 export default function UserManagement() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,6 +84,8 @@ export default function UserManagement() {
       refetch();
     }
   };
+
+  const { isSuccess, mutate } = useDeleteUser();
 
   useEffect(() => {
     refetch();
@@ -160,10 +180,60 @@ export default function UserManagement() {
                           Jun 15, 08:30:04
                         </TableCell>
                         <TableCell className='flex items-center justify-center text-center'>
-                          <PiDotsThreeBold
-                            size={30}
-                            className='hover:bg-blue-300'
-                          />
+                          <Popover>
+                            <PopoverTrigger>
+                              <PiDotsThreeBold
+                                size={30}
+                                className='hover:bg-blue-300'
+                              />
+                            </PopoverTrigger>
+                            <PopoverContent
+                              side='left'
+                              className='flex w-fit flex-col items-start justify-between gap-2'
+                            >
+                              <div className='w-full'>
+                                <EditUser id={users.id} />
+                              </div>
+                              <div>
+                                <AlertDialog>
+                                  <AlertDialogTrigger className='flex w-full items-center gap-2 rounded-md p-2 hover:bg-soft_gray'>
+                                    <MdDelete /> Delete
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>
+                                        {`Are you absolutely sure want delete ${users.firstName} ${users.lastName}?`}
+                                      </AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        This action cannot be undone. This will
+                                        permanently delete your account and
+                                        remove your data from our servers.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel className='border border-red-500 bg-red-500 font-bold text-white hover:border-white hover:bg-red-400 hover:text-white'>
+                                        Cancel
+                                      </AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => {
+                                          mutate({ userId: users.id });
+                                          setTimeout(() => {
+                                            if (isSuccess)
+                                              alert(
+                                                `${users.firstName} ${users.lastName} has been delete`,
+                                              );
+                                          }, 1000);
+                                        }}
+                                        className='bg-primary_blue border-primary_blue hover:text-primary_blue border font-bold text-white hover:bg-white'
+                                      >
+                                        Continue
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              </div>
+                            </PopoverContent>
+                          </Popover>
                         </TableCell>
                       </TableRow>
                     );
