@@ -184,7 +184,7 @@ export default function UserManagement() {
                             <PopoverTrigger>
                               <PiDotsThreeBold
                                 size={30}
-                                className='hover:bg-blue-300'
+                                className='w-max rounded-lg p-1 hover:bg-soft_gray'
                               />
                             </PopoverTrigger>
                             <PopoverContent
