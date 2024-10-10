@@ -35,6 +35,8 @@ export const useUserLogin = () => {
           }),
         );
 
+        alert('Login Success');
+
         navigate.push('/');
       },
       onError: (err: any) => {

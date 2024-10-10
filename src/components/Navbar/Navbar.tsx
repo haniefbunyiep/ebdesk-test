@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGetUserAuth } from '@/helpers/login/hooks/useGetUserAuth';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { setLoginData } from '@/store/user';
+import { setLoginData, logout } from '@/store/user';
 import { useRefreshToken } from '@/helpers/login/hooks/useRefreshToken';
 
 interface NavbarContent {
@@ -43,6 +43,12 @@ export default function NavbarComp() {
   const dispatch = useDispatch();
   const pathname = usePathname();
 
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(setLoginData(null));
+    alert('Logout Success');
+  };
+
   const isAboutUs = pathname === '/aboutus';
 
   const [scrollY, setScrollY] = useState(0);
@@ -61,10 +67,13 @@ export default function NavbarComp() {
   const { userAuthData, userAuthSuccess, userAuthError } = useGetUserAuth();
   const { refreshTokenMutation } = useRefreshToken();
 
+  const hasRunRef = useRef(false);
+
   useEffect(() => {
-    if (!userSelector && userAuthSuccess) {
-      userAuthData;
-      setTimeout(() => {
+    if (hasRunRef.current) return;
+
+    if (userSelector) {
+      if (userAuthSuccess) {
         const userData = userAuthData?.data;
         dispatch(
           setLoginData({
@@ -72,11 +81,13 @@ export default function NavbarComp() {
             email: userData?.email,
           }),
         );
-      });
-    } else if (userAuthError) refreshTokenMutation();
-  });
+      } else if (userAuthError) {
+        refreshTokenMutation();
+      }
+    }
 
-  // console.log(userSelector);
+    hasRunRef.current = true;
+  }, [userSelector, userAuthSuccess, userAuthError, userAuthData, dispatch]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -123,17 +134,38 @@ export default function NavbarComp() {
           ))}
         </ul>
         <div className='hidden flex-shrink-0 items-center gap-3 lg:flex'>
-          <Link href={'/signin'}>
-            <Button
-              variant={'ghost'}
-              className={`${isAboutUs && scrollY <= 600 ? 'rounded-full bg-transparent text-[16px] font-bold text-white' : 'hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold text-black hover:text-white'} `}
-            >
-              Sign In
-            </Button>
-          </Link>
-          <Button className='border-primary_blue text-primary_blue hover:bg-primary_blue z-50 flex rounded-full border bg-white px-[40px] py-[13px] text-[16px] font-bold hover:text-white'>
-            Sign Up
-          </Button>
+          {userSelector == null ? (
+            <>
+              <Link href={'/signin'}>
+                <Button
+                  variant={'ghost'}
+                  className={`${isAboutUs && scrollY <= 600 ? 'rounded-full bg-transparent text-[16px] font-bold text-white' : 'hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold text-black hover:text-white'} `}
+                >
+                  Sign In
+                </Button>
+              </Link>
+              <Button className='border-primary_blue text-primary_blue hover:bg-primary_blue z-50 flex rounded-full border bg-white px-[40px] py-[13px] text-[16px] font-bold hover:text-white'>
+                Sign Up
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href={'/signin'}>
+                <Button
+                  variant={'ghost'}
+                  className={`${isAboutUs && scrollY <= 600 ? 'rounded-full bg-transparent text-[16px] font-bold text-white' : 'hover:bg-primary_blue rounded-full border border-white text-[16px] font-bold text-black hover:text-white'} `}
+                >
+                  Dashboard
+                </Button>
+              </Link>
+              <Button
+                onClick={handleLogout}
+                className='border-primary_blue text-primary_blue hover:bg-primary_blue z-50 flex rounded-full border bg-white px-[40px] py-[13px] text-[16px] font-bold hover:text-white'
+              >
+                Logout
+              </Button>
+            </>
+          )}
         </div>
         <button className='p-4 lg:hidden'>
           <svg
