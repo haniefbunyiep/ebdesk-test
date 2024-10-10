@@ -5,8 +5,25 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import { useUserLogin } from '@/helpers/login/hooks/useUserLogin';
 
 export default function SignIn() {
+  const { userLoginMutation, UserLoginSuccess } = useUserLogin();
+
+  const loginFormik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      userLoginMutation({
+        username: values.username,
+        password: values.password,
+      });
+    },
+  });
   return (
     <div className='flex'>
       <div className='flex h-screen w-[20%] flex-col justify-between bg-soft_gray px-10 py-12'>
@@ -44,29 +61,48 @@ export default function SignIn() {
               <span className='text-primary_blue font-bold'>Sign Up</span>
             </div>
           </div>
-          <div className='flex w-full flex-col gap-5'>
+
+          <form
+            onSubmit={loginFormik.handleSubmit}
+            className='flex w-full flex-col gap-5'
+          >
             <div className='flex flex-col gap-2'>
               <Label className='font-bold'>
                 Username<span className='text-primary_blue font-bold'>*</span>
               </Label>
-              <Input />
+              <Input
+                id='username'
+                name='username'
+                type='text'
+                onChange={loginFormik.handleChange}
+                value={loginFormik.values.username}
+              />
             </div>
             <div className='flex flex-col gap-2'>
               <Label className='font-bold'>
                 Password<span className='text-primary_blue font-bold'>*</span>
               </Label>
-              <Input />
+              <Input
+                id='password'
+                name='password'
+                type='text'
+                onChange={loginFormik.handleChange}
+                value={loginFormik.values.password}
+              />
             </div>
             <div className='flex items-center gap-1'>
               <Checkbox />
               <Label className='text-regent_gray'>Remember Me</Label>
             </div>
             <div>
-              <Button className='bg-primary_blue hover:bg-regent_gray w-full font-bold text-white'>
+              <Button
+                type='submit'
+                className='bg-primary_blue hover:bg-regent_gray w-full font-bold text-white'
+              >
                 Log in
               </Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

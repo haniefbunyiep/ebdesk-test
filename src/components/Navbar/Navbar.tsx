@@ -4,6 +4,11 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { useGetUserAuth } from '@/helpers/login/hooks/useGetUserAuth';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setLoginData } from '@/store/user';
+import { useRefreshToken } from '@/helpers/login/hooks/useRefreshToken';
 
 interface NavbarContent {
   name: string;
@@ -34,6 +39,8 @@ const navbarContent: NavbarContent[] = [
 ];
 
 export default function NavbarComp() {
+  const userSelector = useSelector((state: RootState) => state.user.userData);
+  const dispatch = useDispatch();
   const pathname = usePathname();
 
   const isAboutUs = pathname === '/aboutus';
@@ -50,6 +57,26 @@ export default function NavbarComp() {
     }
     setScrollY(currentScrollY);
   };
+
+  const { userAuthData, userAuthSuccess, userAuthError } = useGetUserAuth();
+  const { refreshTokenMutation } = useRefreshToken();
+
+  useEffect(() => {
+    if (!userSelector && userAuthSuccess) {
+      userAuthData;
+      setTimeout(() => {
+        const userData = userAuthData?.data;
+        dispatch(
+          setLoginData({
+            name: `${userData?.firstName} ${userData?.lastName}`,
+            email: userData?.email,
+          }),
+        );
+      });
+    } else if (userAuthError) refreshTokenMutation();
+  });
+
+  // console.log(userSelector);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
